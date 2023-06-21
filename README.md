@@ -24,7 +24,7 @@ Based on extensive academic research, Fairblock is building infrastructure that 
 
 (d) A single private key (block key) will be automatically generated using an honest majority of private keys on FairyRing (Fairblock decentralized network of private key generators)
 
-d) The generated block key will be used to decrypt all of the previously encrypted transactions and execution follows the inclusion and ordering in step b (before execution of plaintext transactions in the next block).
+(e) The generated block key will be used to decrypt all of the previously encrypted transactions and execution follows the inclusion and ordering in step b (before execution of plaintext transactions in the next block).
 
  
 
