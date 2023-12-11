@@ -6,30 +6,23 @@
 
 <img width="512" alt="Screen Shot 2023-06-20 at 1 57 08 AM" src="https://github.com/Fairblock/FairBlock.github.io/assets/34263018/f92e8ad9-0e0b-4a19-8f08-0a2dd210e163">
 
-While decentralized applications are rapidly gaining popularity, lack of “pre-execution privacy” has limited many on-chain applications including private governance/voting, sealed-bid auctions, or caused major obstacles to DeFi applications from a user-centric point-of-view specifically with front-running strategies.
+Fairblock is building a chain-agnostic framework that makes it easy for developers to implement privacy-preserving transactions at critical paths. We think of cryptographic schemes as different tools in a toolbox, and there is no one-size-fits-all solution when building privacy into applications. Leveraging advanced cryptographic schemes including identity-based encryption (IBE), witness encryption (WE), and fully homomorphic encryption (FHE), Fairblock is building blockchain infrastructure for programmable privacy and conditional decryption. These technologies help protect the content of transactions from bots, competitors, and other adversaries. 
 
+This can be useful for a wide range of privacy-preserving use cases including encrypted on-chain intents (limit orders, stop-loss orders, programmable trading), bad-MEV prevention, private governance, censorship-resistant shared sequencing, on-chain gaming, on-chain legal contracts, randomness generation oracles, and any scenario where asymmetric information limits the use of a decentralized application.
+
+Fairblock consists of:
+
+- The Fairblock SDK -  A framework that developers can use as part of the building blocks of their applications and networks to take advantage of the privacy-preserving services offered by the Fairblock Network.
+- FairyRing - A Cosmos SDK appchain mainly responsible for decentralized generation of private keys for decryption of transactions generated across the apps and networks that have integrated Fairblock, triggered upon specific conditions.
+
+The highly simplified flow of our approach is as follows:
+
+a. From the frontend of an app that has integrated Fairblock, a user encrypts a transaction(s) using a master public key and declares the transaction’s “condition(s) for decryption.” Example of “conditions” are the execution of a transaction at a specific time in the future, when certain market conditions are reached, or at the conclusion of a voting period. The encrypted transaction(s) is submitted on-chain on the network where the application resides.
  
+b. The validators or sequencers of the underlying network include the encrypted transaction(s) in a block.
 
-Alongside the huge financial loss which goes out of the pockets of retail users and protocols, bad MEV (not good MEV e.g. arbitrage) has many other negative effects such as consensus instability (especially sabotaging a smaller Cosmos chain for an MEV opportunity in another chain), UX complexity (failure of transactions, slippage, and lost opportunities), waste of blockspace, and network congestion.
+c. Once the condition(s) for decryption are met, validators of the FairyRing submit private key shares. The key shares are aggregated to form a private key matching the master public key associated with the encrypted transaction(s) and the condition of decryption.
 
- 
+d. The aggregated private key is used to decrypt the encrypted transaction(s), which are thereafter executed by the validators of the network upon which the app resides.
 
-Based on extensive academic research, Fairblock is building infrastructure that can enable “pre-execution privacy” for applications such as front-running protection, private voting/governance, censorship-resistant rollup sequencers, and randomness generation oracles. Fairblock leverages distributed identity-based encryption which is a novel, secure, and efficient pairing-based scheme that can be exploited cleverly to enable pre-execution privacy. The highly simplified flow our approach will have is as follows:
-
-(a) Users encrypt transactions using a master public key (remains the same) and ID of the block in which the transaction should be executed (happens seamlessly in the user browser) and send them to the destination chain directly (not Fairblock).
-
-(b) Consensus validators or a sequencer of the destination chain finalize the ordering and inclusion of encrypted transactions
-
-(c) Fairblock validators share their shares of the block key (block key is a single key to decrypt all transactions encrypted to a combination of the validators’ shared public key and an ID corresponding to block height or other conditions).
-
-(d) A single private key (block key) will be automatically generated using an honest majority of private keys on FairyRing (Fairblock decentralized network of private key generators)
-
-(e) The generated block key will be used to decrypt all of the previously encrypted transactions and execution follows the inclusion and ordering in step b (before execution of plaintext transactions in the next block).
-
- 
-
-It is easy to see that this mechanism solves many forms of exploits/front-running attacks (bad MEV) and protects the contents of the transaction before execution to enable other applications such as sealed-bid auctions and private governance i.e. the validators must finalize a block of encrypted transactions and fix their order, no party can see the information in them, and hence it is much harder for them to influence the outcome. 
-
- 
-
-Fairblock can be used for front-running protection, private limit orders, private voting/governance, sealed-bid auctions, randomness generation and censorship-resistant sequencers in the Cosmos and soon in the Ethereum ecosystem, modular ecosystem (Celestia), Layer 2s (Optimism, Scroll, Eclipse), and cross-chain infrastructures and applications (Axelar, Squid) to protect the contents of the transactions before execution. Our goal/value is empowering users and protocols with the optional freedom of encrypting their transactions in order to protect them against various forms of malicious strategies and enable decentralized applications which are not previously possible.
+Using this approach, Fairblock provides developers with the freedom to choose when, where, and how to implement encrypted transactions into decentralized applications. This can be useful to protect users from various forms of malicious strategies from adversaries, promoting fairness across the crypto ecosystem.
